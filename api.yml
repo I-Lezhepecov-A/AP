@@ -1,0 +1,87 @@
+openapi: "3.0.2"
+info:
+  title: Vaccinations API
+  version: "1.0"
+paths:
+  /vaccinations:
+    get:
+      description: list of all countries and their vaccinations or filter using query
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Country"
+
+  /vaccinations/country/{countryId}:
+    get:
+      description: retrive information about specific country using the country ID
+      parameters:
+        - name: countryId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: country ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Country"
+
+  /country:
+    post:
+      description: add new country to the database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Country"
+      responses:
+        "201":
+          description: created
+
+  /country/{countryId}:
+    delete:
+      description: delete the selected country using country ID
+      parameters:
+        - name: countryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: record was successfully deleted
+
+components:
+  schemas:
+    Country:
+      type: object
+      properties:
+        name:
+          type: string
+        iso_code:
+          type: string
+        population:
+          type: integer
+          format: int64
+        total_vaccinated:
+          type: integer
+          format: int64
+        percentage_vaccinated:
+          type: number
+          format: double
+      example:
+        {
+          "name": "Chile",
+          "iso_code": "CHL",
+          "population": 19116209,
+          "total_vaccinated": 17283367,
+          "percentage_vaccinated": 90.41,
+        }

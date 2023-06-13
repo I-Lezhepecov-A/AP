@@ -1,0 +1,4 @@
+python-csv
+db-sqlite3
+flask
+pytest
